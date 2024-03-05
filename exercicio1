@@ -1,0 +1,30 @@
+const http = require('http');
+const produtos = [
+    { Produto: 'Computador', preco: 1500.00 },
+    { Produto: 'DVD', preco: 850.00 },
+    { Produto: 'Toca-Discos', preco: 650.00 }
+];
+
+const server = http.createServer((request,response)=>{
+const headers = request.headers;
+const method = request.method;
+const url = request.url;
+console.log("Headers");
+console.log(headers);
+console.log("Method: " + method);
+console.log("URL: " + url);
+
+    if(request.url == '/'){
+        response.writeHead(200,{ 'Content-Type': 'text/plain' });
+        response.end('Bem-vindo à nossa loja de produtos!');
+    } else if(request.url == '/products'){
+        response.writeHead(200, { 'Content-Type': 'application/json' });
+        response.end(JSON.stringify(produtos));
+    } else {
+        response.writeHead(404, { 'Content-Type': 'text/plain' });
+        response.end('Not found');
+    }
+});
+
+server.listen(3000);
+console.log("Servidor iniciado na porta 3000");
